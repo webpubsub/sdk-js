@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <script type="text/javascript" src="../../dist/web/webpubsub.js"></script>
+        <script>
+            const webpubsub = new Webpubsub({
+                origin: 'localhost:11443',
+                ssl: false,
+                publishKey: 'pub-c-deeb6f03-8193-4a34-b253-e89f915dc7b8',
+                subscribeKey: 'sub-c-e548adb7-3388-4d3a-8134-91d0130312e2',
+                uuid: 'myUniqueUUID',
+            });
+
+            var token = 'qGF2AmF0GmK6rDpjdHRsGQPoY3Jlc6VkY2hhbqFqbXktY2hhbm5lbANjZ3JwoGN1c3KgY3NwY6BkdXVpZKBjcGF0pWRjaGFuoGNncnCgY3VzcqBjc3BjoGR1dWlkoGRtZXRhoGNzaWdYICt80GErg6d0uTIbPeqlbZ1P1ybkkEYPk-ViK3B5OyoaZHV1aWRg';
+
+            webpubsub.setToken(token)
+
+            webpubsub.subscribe({
+                channels: [
+                    "my-channel",
+                    // "chats_guilds.mages_guild",
+                    // "alerts.system",
+                    // "geolocation.data",
+                ]
+            });
+
+            webpubsub.addListener({
+                message: function(receivedMessage) {
+                    // handle message
+                    console.log("消息内容: ", receivedMessage.message);
+                    console.log("发送者: ", receivedMessage.publisher);
+                }
+            });
+
+            window.onload = function() {                
+                var send_btn = document.getElementById("send_btn")
+                send_btn.onclick = function(e) {
+                    var text = document.getElementById("text")
+                
+                    webpubsub.publish(
+                        {
+                            channel: "my-channel",
+                            message: {
+                                text: text.value,
+                            }
+                        },
+                        function(status, response) {
+                            console.log(status);
+                            console.log(response);
+                        }
+                    );
+                };
+            }
+        </script>
+    </head>
+    <body>
+        <input id="text" value="哈哈"/>
+        <button id="send_btn">发送</button>
+    </body>
+</html>
