@@ -7,16 +7,17 @@
                 ssl: false,
                 publishKey: 'pub-c-deeb6f03-8193-4a34-b253-e89f915dc7b8',
                 subscribeKey: 'sub-c-e548adb7-3388-4d3a-8134-91d0130312e2',
-                uuid: 'myUniqueUUID',
+                uuid: 'myUniqueUUID1',
             });
 
-            var token = 'qGF2AmF0GmK6rDpjdHRsGQPoY3Jlc6VkY2hhbqFqbXktY2hhbm5lbANjZ3JwoGN1c3KgY3NwY6BkdXVpZKBjcGF0pWRjaGFuoGNncnCgY3VzcqBjc3BjoGR1dWlkoGRtZXRhoGNzaWdYICt80GErg6d0uTIbPeqlbZ1P1ybkkEYPk-ViK3B5OyoaZHV1aWRg';
+            var token = 'qGF2AmF0GmK-1iljdHRsGQPoY3Jlc6VkY2hhbqJqbXktY2hhbm5lbANrbXktY2hhbm5lbDIDY2dycKBjdXNyoGNzcGOgZHV1aWSgY3BhdKVkY2hhbqBjZ3JwoGN1c3KgY3NwY6BkdXVpZKBkbWV0YaBjc2lnWCC8X4_F-Sh-oJIYZ-MEZiG7HcLjK3hwJ9EUkpkeE9C5MGR1dWlkYA==';
 
             webpubsub.setToken(token)
 
             webpubsub.subscribe({
                 channels: [
                     "my-channel",
+                    "my-channel2",
                     // "chats_guilds.mages_guild",
                     // "alerts.system",
                     // "geolocation.data",
@@ -28,6 +29,12 @@
                     // handle message
                     console.log("消息内容: ", receivedMessage.message);
                     console.log("发送者: ", receivedMessage.publisher);
+
+                    webpubsub.unsubscribe({
+                        channels: [
+                            "my-channel2",
+                        ]
+                    });
                 }
             });
 
