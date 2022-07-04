@@ -4,9 +4,10 @@
   "author": "Webpubsub <support@webpubsub.com>",
   "description": "Publish & Subscribe Real-time Messaging with Webpubsub",
   "scripts": {
-    "build": "npm run build:node && npm run build:web",
+    "build": "npm run build:node && npm run build:web && npm run build:mp-weixin",
     "build:web": "rollup -c rollup.config.js",
     "build:node": "tsc -p tsconfig.json",
+    "build:mp-weixin": "tsc -p tsconfig.json",
     "test": "npm run test:web && npm run test:node",
     "test:web": "karma start ./karma/web.config.js",
     "test:node": "ts-mocha -p tsconfig.mocha.json --config .mocharc.yml",
@@ -30,6 +31,7 @@
   "react-native": "./lib/react_native/index.js",
   "metro": "./lib/react_native/index.js",
   "nativescript": "./lib/nativescript/index.js",
+  "mp-weixin": "./lib/mp-weixin/index.js",
   "browser": "./dist/web/webpubsub.min.js",
   "repository": {
     "type": "git",
@@ -51,6 +53,7 @@
     "buffer": "^6.0.3",
     "cbor-js": "^0.1.0",
     "cbor-sync": "^1.0.4",
+    "flyio": "^0.6.14",
     "lil-uuid": "^0.1.1",
     "superagent": "^6.1.0",
     "superagent-proxy": "^3.0.0"
