@@ -1,24 +1,19 @@
 /*       */
 /* global window */
-import fly from 'flyio';
 import Fly from 'flyio/dist/npm/wx';
+import { buildUrl } from '../utils';
 
-
-const request = new Fly()
-request.interceptors.request.use((request) => {
-wx.showNavigationBarLoading()
-return request
+const fly = new Fly()
+fly.interceptors.request.use((request) => {
+  // wx.showNavigationBarLoading()
+  return request
 })
 
-request.interceptors.response.use((response, promise) => {
-wx.hideNavigationBarLoading()
-    // if (!(response && response.data && response.data.res === 0)) {
-    //   errorPrompt(response)
-    // }
-return promise.resolve(response.data)
+fly.interceptors.response.use((response, promise) => {
+  // wx.hideNavigationBarLoading()
+  return promise.resolve(response)
 }, (err, promise) => {
-    wx.hideNavigationBarLoading()
-    errorPrompt(err)
+    // wx.hideNavigationBarLoading()
     return promise.reject(err)
 });
 
@@ -53,18 +48,17 @@ function xdr(method, url, params, body, endpoint, callback) {
     const httpConfig = {
         method,
         timeout: endpoint.timeout,
-        content: body,
     };
 
-    return fly.request(url, httpConfig)
+    return fly.request(url, body, httpConfig)
         .then((response) => {
             status.error = false;
 
-            if (response.statusCode) {
-                status.statusCode = response.statusCode;
+            if (response.status) {
+                status.statusCode = response.status;
             }
 
-            return response.content.toJSON();
+            return response.data;
         })
         .then((response) => {
             const resp = response;
@@ -96,25 +90,25 @@ export async function postfile(url, fields, fileInput) {
 
 export function getfile(params, endpoint, callback) {
   const url = this.getStandardOrigin() + endpoint.url;
-  return xdr.call(this, 'GET', url, params, '', endpoint, callback);
+  return xdr.call(this, 'get', url, params, '', endpoint, callback);
 }
 
 export function get(params, endpoint, callback) {
   const url = this.getStandardOrigin() + endpoint.url;
-  return xdr.call(this, 'GET', url, params, '', endpoint, callback);
+  return xdr.call(this, 'get', url, params, '', endpoint, callback);
 }
 
 export function post(params, body, endpoint, callback) {
   const url = this.getStandardOrigin() + endpoint.url;
-  return xdr.call(this, 'POST', url, params, body, endpoint, callback);
+  return xdr.call(this, 'post', url, params, body, endpoint, callback);
 }
 
 export function patch(params, body, endpoint, callback) {
   const url = this.getStandardOrigin() + endpoint.url;
-  return xdr.call(this, 'PATCH', url, params, body, endpoint, callback);
+  return xdr.call(this, 'patch', url, params, body, endpoint, callback);
 }
 
 export function del(params, endpoint, callback) {
   const url = this.getStandardOrigin() + endpoint.url;
-  return xdr.call(this, 'DELETE', url, params, '', endpoint, callback);
+  return xdr.call(this, 'delete', url, params, '', endpoint, callback);
 }
